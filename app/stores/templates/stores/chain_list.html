@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Chains
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Chains</h1>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Name</th><th># of Stores</th></tr>
+                </thead>
+                <tbody>
+                {% for chain in chain_list %}
+                    <tr>
+                        <td><a href="{% url "chain-detail" chain.slug %}">{{ chain }}</a></td>
+                        <td>{{ chain.stores.count }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include "stores/paginator.html" %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+{{ object.name }}
+{{ object.address.city }}
+{{ object.address.county }}
+{{ object.address.postcode }}
+{{ object.long_description }}

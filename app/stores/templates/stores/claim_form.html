@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Claim Request - {{ target_obj }}</h1>
+</div>
+
+<p>This form is to submit a request to claim a store/chain and assign it to your login. If you are a store or chain manager for {{ target_obj }} please fill in the following note with proof of your claim. Once you submit the request it'll be reviewed by {{ site.name }} staff who may need to contact you to confirm your request.</p>
+
+<p>In the note please submit as many of the following details you can.</p>
+
+<ul>
+    <li>Full name.</li>
+    <li>Contact phone number.</li>
+    <li>Email address.</li>
+    <li>Links to your store's website or Facebook page with the store's details listed.</li>
+</ul>
+
+<form class="form form-horizontal" method="post">
+{{ form|bootstrap }}
+{% csrf_token %}
+<input class="btn" type="submit">
+</form>
+{% endblock %}

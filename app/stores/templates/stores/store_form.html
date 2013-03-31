@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block scripts %}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Edit Store - {{ object }}</h1>
+    </div>
+
+    <form class="form form-horizontal" method="post">
+        {{ form|bootstrap }}
+        {% csrf_token %}
+        <input class="btn" type="submit">
+    </form>
+{% endblock %}

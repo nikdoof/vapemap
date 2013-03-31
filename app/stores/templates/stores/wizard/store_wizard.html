@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block style %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Add Store ({{ wizard.steps.step1 }} of {{ wizard.steps.count }})</h1>
+    </div>
+
+    <form class="form form-horizontal" method="post">
+        {{ wizard.management_form|bootstrap }}
+        {{ wizard.form|bootstrap }}
+        {% csrf_token %}
+        {% if wizard.steps.prev %}
+        <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.first }}">First Step</button>
+        <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
+        {% endif %}
+        <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.next }}">Next Step</button>
+    </form>
+{% endblock %}

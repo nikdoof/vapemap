@@ -1,0 +1,12 @@
+django>=1.5.1,<1.6
+django-debug-toolbar>=0.9.4
+south>=0.7.6
+geopy>=0.95
+django-markdown-deux>=1.0.4
+django-bootstrap-form>=1.4
+django-extra-views>=0.6.2
+-e hg+https://bitbucket.org/ubernostrum/django-registration@b3c41b3#egg=django_registration
+requests
+pyelasticsearch
+-e git+git://github.com/toastdriven/django-haystack.git@0e8bd20c18ce3133b3a4f285a4c420bb621ac49b#egg=django_haystack
+django-epiceditor
