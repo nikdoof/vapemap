@@ -1,3 +1,6 @@
 .idea
 *.pyc
 *.sqlite3
+static/
+!app/*/static
+.vagrant

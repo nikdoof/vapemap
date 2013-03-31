@@ -1,0 +1,8 @@
+#!python
+from os import environ
+from gevent import monkey
+monkey.patch_all()
+
+bind = "127.0.0.1:3322"
+workers = 8 
+#worker_class = "gunicorn.workers.ggevent.GeventWorker"

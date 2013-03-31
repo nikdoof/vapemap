@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.flatpages',
+    'gunicorn',
     'south',
     'markdown_deux',
     'epiceditor',
