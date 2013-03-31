@@ -1,7 +1,8 @@
 import os
+import dj_database_url
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -11,10 +12,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(__file__), '..', '..', 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(default='sqlite:///%s' % os.path.join(os.path.dirname(__file__), '..', '..', 'db.sqlite3')),
 }
 
 ALLOWED_HOSTS = [
@@ -109,6 +107,7 @@ if DEBUG:
 
 ROOT_URLCONF = 'vapemap.urls'
 WSGI_APPLICATION = 'vapemap.wsgi.application'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 LOGGING = {
     'version': 1,
@@ -137,7 +136,7 @@ LOGGING = {
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
+        'URL': os.environ.get('FOUNDELASTICSEARCH_URL', 'http://127.0.0.1:9200/'),
+        'INDEX_NAME': 'vapemap-haystack',
         },
     }
