@@ -179,3 +179,9 @@ if not DEBUG:
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL
+
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
