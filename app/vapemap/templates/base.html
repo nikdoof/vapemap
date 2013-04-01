@@ -22,6 +22,7 @@
         var static_url = '{{ STATIC_URL }}';
         var django = {'jQuery': $};
     </script>
+    {% include "ga.html" %}
     {% block style %}
     {% endblock %}
 </head>
@@ -76,5 +77,4 @@
 <script src="{% static "js/bootstrap.min.js" %}"></script>
 {% block scripts %}
 {% endblock %}
-{% include "ga.html" %}
 </html>
