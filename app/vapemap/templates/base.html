@@ -19,7 +19,8 @@
     <![endif]-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
-        //
+        var static_url = '{{ STATIC_URL }}';
+        var django = {'jQuery': $};
     </script>
     {% block style %}
     {% endblock %}

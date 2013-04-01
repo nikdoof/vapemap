@@ -1,7 +1,7 @@
 
-var store_icon = '/static/img/map_icons/home-2.png'
-var online_icon = '/static/img/map_icons/wifi.png'
-var geolocation_icon = '/static/img/map_icons/home-2-green.png'
+var store_icon = static_url + 'img/map_icons/home-2.png'
+var online_icon = static_url + 'img/map_icons/wifi.png'
+var geolocation_icon = static_url + '/img/map_icons/home-2-green.png'
 
 function lookup_marker(id) {
     if (id == null || id == 1) {
