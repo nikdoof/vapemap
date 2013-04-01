@@ -1,1 +1,1 @@
-web: cd app; python manage.py collectstatic --noinput; python manage.py run_gunicorn -k gevent
+web: cd app; python manage.py run_gunicorn -k gevent
