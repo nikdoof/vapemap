@@ -14,6 +14,7 @@ django-epiceditor
 # Heroku
 dj-database-url
 gunicorn
+gevent
 psycopg2
 django-storages
 boto
