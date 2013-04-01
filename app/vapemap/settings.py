@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.flatpages',
     'gunicorn',
+    'raven.contrib.django.raven_compat',
     'south',
     'storages',
     'markdown_deux',
@@ -118,32 +119,47 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry', 'console'],
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
     'handlers': {
-        'mail_admins': {
+        'sentry': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
         },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
+            'formatter': 'verbose',
         },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['console'],
+        'django.db.backends': {
             'level': 'ERROR',
-            'propagate': True,
+            'handlers': ['console'],
+            'propagate': False,
         },
-        '*': {
+        'raven': {
+            'level': 'DEBUG',
             'handlers': ['console'],
-            'level': 'ERROR',
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
         },
     }
 }
