@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'gunicorn',
     'raven.contrib.django.raven_compat',
     'south',
+    'waffle',
     'storages',
     'markdown_deux',
     'epiceditor',
@@ -88,6 +89,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'waffle.middleware.WaffleMiddleware',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS += (

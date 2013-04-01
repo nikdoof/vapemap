@@ -1,6 +1,42 @@
 from django.http import Http404
 from haystack.query import SearchQuerySet
 from haystack.inputs import AutoQuery
+from waffle import switch_is_active, flag_is_active
+
+
+class WaffleSwitchMixin(object):
+    """
+    Checks that as switch is active, or 404. Operates like the FBV decorator waffle_switch
+    """
+    waffle_switch = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.waffle_switch.startswith('!'):
+            active = not switch_is_active(self.waffle_switch[1:])
+        else:
+            active = switch_is_active(self.waffle_switch)
+
+        if not active:
+            raise Http404
+        return super(WaffleSwitchMixin, self).dispatch(request, *args, **kwargs)
+
+
+class WaffleFlagMixin(object):
+    """
+    Checks that as flag is active, or 404. Operates like the FBV decorator waffle_flag
+    """
+    waffle_flag = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.waffle_flag.startswith('!'):
+            active = not flag_is_active(request, self.waffle_flag[1:])
+        else:
+            active = flag_is_active(request, self.waffle_flag)
+
+        if not active:
+            raise Http404
+        return super(WaffleFlagMixin, self).dispatch(request, *args, **kwargs)
+
 
 class EditorCheckMixin(object):
     """

@@ -19,3 +19,4 @@ psycopg2
 django-storages
 boto
 raven>=3
+django-waffle>=0.9.1
