@@ -18,7 +18,7 @@ class DistanceSearchView(ListView):
         if location:
             name, geo = caching_geo_lookup(location)
         elif lat and lng:
-            geo = (lat, lng)
+            geo = (float(lat), float(lng))
         else:
             geo = None
         self.location_geo = geo
