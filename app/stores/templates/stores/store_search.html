@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    Stores
+    Search
 {% endblock %}
 
 {% block style %}
@@ -29,19 +29,11 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>Stores</h1>
+        <h1>Store Search Results</h1>
     </div>
 
     <div class="row-fluid">
         <div class="span7">
-            <form method="get">
-                <input type="text" name="location" class="search-query" placeholder="Location" value="{{ location }}">
-                <select name="distance">
-                    <option value="10">10km</option>
-                    <option value="30">20km</option>
-                    <option value="30">30km</option>
-                </select>
-            </form>
             {% if object_list.count %}
             <table class="table table-striped">
                 <thead>
@@ -52,14 +44,14 @@
                     <tr>
                         <td><a href="{% url "store-detail" store.object.slug %}">{{ store.object }}</a></td>
                         <td>{{ store.object.address.city }}</td>
-                        <td>{{ store.distance }}</td>
+                        <td>{{ store.distance.km|floatformat:2 }} km</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
             {% include "stores/paginator.html" %}
             {% else %}
-            <p>No results found.</p>
+            <p>No stores found.</p>
             {% endif %}
         </div>
         <div class="span5">
