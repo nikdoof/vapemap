@@ -1,6 +1,7 @@
 from math import radians, cos, sin, asin, sqrt
 from django.core.cache import cache
 from geopy.geocoders import GoogleV3
+from geopy.geocoders.base import GeocoderResultError
 
 
 def haversine(lon1, lat1, lon2, lat2):
@@ -30,7 +31,7 @@ def caching_geo_lookup(address):
     if not geo:
         try:
             geo = GoogleV3().geocode(address)
-        except ValueError:
+        except GeocoderResultError:
             return None
         cache.set('geo_%s' % slug, geo, 3600)
     return geo
