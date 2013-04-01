@@ -140,7 +140,3 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'vapemap-haystack',
         },
     }
-
-if os.environ.get('ON_HEROKU', False):
-    GEOS_LIBRARY_PATH = '/app/.geodjango/geos/lib/libgeos_c.so'
-    GDAL_LIBRARY_PATH = '/app/.geodjango/gdal/lib/libgdal.so'
