@@ -48,7 +48,11 @@ class AddressForm(BootstrapModelForm):
 
     class Meta:
         model = Address
-        exclude = ('name', 'geo_latitude', 'geo_longitude')
+        exclude = ('name',)
+        widgets = {
+            'geo_latitude': forms.widgets.HiddenInput(),
+            'geo_longitude': forms.widgets.HiddenInput(),
+        }
 
 
 class AddressInline(InlineFormSet):

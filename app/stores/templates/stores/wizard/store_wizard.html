@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% load bootstrap %}
+{% load staticfiles %}
 
 {% block style %}
     {{ form.media }}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{% static "js/geocoder.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,6 +24,6 @@
         <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.first }}">First Step</button>
         <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
         {% endif %}
-        <button name="wizard_goto_step" class="btn" type="submit" value="{{ wizard.steps.next }}">Next Step</button>
+        <button class="btn" type="submit">Next Step</button>
     </form>
 {% endblock %}

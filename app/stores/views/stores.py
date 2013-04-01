@@ -62,7 +62,7 @@ class StoreCreateView(SessionWizardView):
 
         messages.success(self.request, "%s has been sumbitted for moderation and should be visible within the next 24 hours." % store_obj)
 
-        return HttpResponseRedirect(reverse('store-map'))
+        return HttpResponseRedirect(reverse('stores-map'))
 
     def get_template_names(self):
         return 'stores/wizard/store_wizard.html'

@@ -18,8 +18,9 @@ class DistanceSearchView(ListView):
         if location:
             name, geo = caching_geo_lookup(location)
         elif lat and lng:
-            name, geo = caching_geo_lookup('%s,%s' % (lat, lng))
-            print name
+            geo = (lat, lng)
+        else:
+            geo = None
         self.location_geo = geo
 
         return Point(geo[1], geo[0])
@@ -29,6 +30,8 @@ class DistanceSearchView(ListView):
 
     def get_queryset(self):
         location = self.get_location()
+        if not location:
+            return SearchQuerySet.none
         distance = self.get_distance()
         print location, distance
         return SearchQuerySet().dwithin('location', location, distance).distance('location', location).order_by('-distance')
