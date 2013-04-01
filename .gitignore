@@ -2,5 +2,7 @@
 *.pyc
 *.sqlite3
 static/
+app/static/
+app/media/
 !app/*/static
 .vagrant
