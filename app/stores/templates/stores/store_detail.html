@@ -78,7 +78,7 @@ $(document).ready(function(){initialize_map_store()});
                 {% if store.address.address2 %}<li>{{ store.address.address2 }}</li>{% endif %}
                 {% if store.address.address3 %}<li>{{ store.address.address3 }}</li>{% endif %}
                 <li class="locality">{{ store.address.city }}</li>
-                <li class="region">{{ store.address.county }}</li>
+                {% if store.address.county %}<li class="region">{{ store.address.county }}</li>{% endif %}
                 <li class="postal-code">{{ store.address.postcode }}</li>
                 <li class="country-name">{{ store.address.country }}</li>
             </ul>
