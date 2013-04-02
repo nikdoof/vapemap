@@ -47,13 +47,14 @@
             {% if store_list.count %}
             <table class="table table-striped">
                 <thead>
-                    <tr><th>Name</th><th>Town/City</th></tr>
+                    <tr><th>Name</th><th>Town/City</th><th>Country</th></tr>
                 </thead>
                 <tbody>
                 {% for store in store_list %}
                     <tr>
                         <td><a href="{% url "store-detail" store.slug %}">{{ store }}</a></td>
                         <td>{{ store.address.city }}</td>
+                        <td>{{ store.address.country }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

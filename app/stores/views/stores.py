@@ -24,7 +24,7 @@ class StoreListView(HaystackSearchListMixin, ListView):
 
     def get_queryset(self):
         qs = super(StoreListView, self).get_queryset()
-        return qs.filter(active=True).select_related('address')
+        return qs.filter(active=True).select_related('address', 'address__country')
 
 
 class StoreDetailView(EditorCheckMixin, DetailView):
