@@ -2,10 +2,14 @@
 {% load i18n %}
 {% load bootstrap %}
 
+{% block title %}
+    Register Account
+{% endblock %}
+
 {% block content %}
 <form class="form" method="post">
   {{ form|bootstrap }}
   {% csrf_token %}
-  <input class="btn" type="submit" value="{% trans 'Submit' %}" />
+  <input class="btn" type="submit" value="Create Account" />
 </form>
 {% endblock %}

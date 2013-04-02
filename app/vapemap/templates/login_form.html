@@ -20,11 +20,12 @@
 <div id="login-modal" class="modal hide fade">
     <div class="modal-body">
         <form class="form-signin" action="{% url "login" %}?next={{ request.get_full_path }}" method="post">
-            <h2 class="form-signin-heading">Please sign in</h2>
+            <h2 class="form-signin-heading">Login</h2>
             <input name="username" type="text" class="input-block-level" placeholder="Username">
             <input name="password" type="password" class="input-block-level" placeholder="Password">
             {% csrf_token %}
             <p><button class="btn btn-large btn-primary" type="submit" data-loading-text="Submitted...">Sign in</button></p>
+            <p class="muted"><a href="{% url "auth_password_reset" %}">Forgot your password?</a></p>
             <p class="muted">Don't have an account? Then <a href="{% url "registration_register" %}">sign up</a>.</p>
         </form>
     </div>
