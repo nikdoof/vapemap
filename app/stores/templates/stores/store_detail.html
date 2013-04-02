@@ -50,7 +50,11 @@ $(document).ready(function(){initialize_map_store()});
 
 <div class="row-fluid">
     <div class="span8">
+        {% if store.long_description %}
         {{ store.long_description|markdown }}
+        {% else %}
+        <p>No description / write up available for this store at the moment.</p>
+        {% endif %}
         
         {% if store.brands.count %}
         <h3>Brands Stocked</h3>

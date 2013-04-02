@@ -44,7 +44,11 @@
             {% if chain.website %}
             <p><b>Website</b>: <a href="{{ chain.website }}" target="_blank">{{ chain.website }}</a></p>
             {% endif %}
-            {{ chain.long_description|markdown }}
+            {% if chain.long_description %}
+                {{ chain.long_description|markdown }}
+            {% else %}
+                <p>No description / write up available for this chain at the moment.</p>
+            {% endif %}
         </div>
     </div>
 
