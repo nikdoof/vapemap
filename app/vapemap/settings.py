@@ -18,10 +18,9 @@ DATABASES = {
 
 ALLOWED_HOSTS = [
     'vapemap.herokuapp.com',
-    'vapemap.co.uk',
-    'vapemap.com',
-    'vapourhunter.co.uk',
-    'vapourhunter.com',
+    'www.vapemap.co.uk',
+    'www.vapourhunter.co.uk',
+    'www.vapourhunter.com',
 ]
 
 TIME_ZONE = 'UTC'
