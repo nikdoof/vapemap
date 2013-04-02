@@ -67,7 +67,7 @@
     {% endblock %}
         <hr/>
         <div class="footer">
-            <p class="muted">&copy; tensixtyone 2013{% for page in flatpages %} | <a href="{{ page.url }}">{{  page.title }}</a>{% endfor %}</p>
+            <p class="muted">&copy; tensixtyone 2013 | Map icons by <a href="http://mapicons.nicolasmollet.com/" target="new">Map Icons Collection</a>{% for page in flatpages %} | <a href="{{ page.url }}">{{  page.title }}</a>{% endfor %}</p>
         </div>
     </div>
     {% if not user.is_authenticated %}
@@ -77,4 +77,31 @@
 <script src="{% static "js/bootstrap.min.js" %}"></script>
 {% block scripts %}
 {% endblock %}
+{% switch uservoice_tab %}
+<script type='text/javascript'>
+
+    var _ues = {
+        host:'vapourhunter.userecho.com',
+        forum:'18759',
+        lang:'en',
+        tab_icon_show:false,
+        tab_corner_radius:5,
+        tab_font_size:20,
+        tab_image_hash:'ZmVlZGJhY2s%3D',
+        tab_chat_hash:'Y2hhdA%3D%3D',
+        tab_alignment:'right',
+        tab_text_color:'#FFFFFF',
+        tab_text_shadow_color:'#00000055',
+        tab_bg_color:'#1E6DA9',
+        tab_hover_color:'#0525F4'
+    };
+
+    (function() {
+        var _ue = document.createElement('script'); _ue.type = 'text/javascript'; _ue.async = true;
+        _ue.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.userecho.com/js/widget-1.4.gz.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(_ue, s);
+    })();
+
+</script>
+{% endswitch %}
 </html>
