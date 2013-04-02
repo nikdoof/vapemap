@@ -4,13 +4,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from ..forms import ClaimRequestForm
 from ..models import ClaimRequest
+from .mixins import WaffleSwitchMixin
 
 
-class ClaimCreateView(CreateView):
+class ClaimCreateView(WaffleSwitchMixin, CreateView):
     model = ClaimRequest
     target_model = None
     form_class = ClaimRequestForm
     template_name = 'stores/claim_form.html'
+    waffle_switch = 'claim_support'
 
     def get(self, request, *args, **kwargs):
         self.target_obj = self.get_target_object()

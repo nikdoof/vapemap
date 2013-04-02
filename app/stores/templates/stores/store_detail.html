@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load markdown_deux_tags %}
+{% load waffle_tags %}
 
 {% block title %}
 {{ store.name }}
@@ -63,7 +64,7 @@ $(document).ready(function(){initialize_map_store()});
     <div class="span4">
         {% if user.is_authenticated and not store.editor or user.is_superuser %}
         <p>
-            {% if not store.editor %}<a href="{% url "store-claim" store.slug %}" class="btn btn-small">Claim Store</a>{% endif %}
+            {% switch claim_support %}{% if not store.editor %}<a href="{% url "store-claim" store.slug %}" class="btn btn-small">Claim Store</a>{% endif %}{% endswitch %}
             {% if is_editor %}<a href="{% url "store-update" store.slug %}" class="btn btn-small">Edit Store</a>{% endif %}
             {% if user.is_superuser %}<a href="{% url "admin:stores_store_change" store.pk %}" class="btn btn-small">Edit in Admin</a>{% endif %}
         </p>

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load markdown_deux_tags %}
 {% load staticfiles %}
+{% load waffle_tags %}
 
 {% block title %}
     {{ chain.name }}
@@ -35,7 +36,7 @@
         <div class="span12">
             {% if user.is_authenticated or not store.editor or user.is_superuser %}
                 <p>
-                    {% if not chain.editor %}<a href="{% url "chain-claim" chain.slug %}" class="btn btn-small">Claim Chain</a>{% endif %}
+                    {% switch claim_support %}{% if not chain.editor %}<a href="{% url "chain-claim" chain.slug %}" class="btn btn-small">Claim Chain</a>{% endif %}{% switchflag %}
                     {% if is_editor %}<a href="#" class="btn btn-small">Edit Chain</a>{% endif %}
                     {% if user.is_superuser %}<a href="{% url "admin:stores_chain_change" chain.pk %}" class="btn btn-small">Edit in Admin</a>{% endif %}
                 </p>
