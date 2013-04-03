@@ -50,7 +50,7 @@ class Store(models.Model):
     name = models.CharField('Name', max_length=200, help_text="Store's full name")
     slug = models.SlugField('URL Slug', max_length=200, blank=True)
     address = models.ForeignKey('stores.Address', related_name='stores')
-    store_type = models.IntegerField('Store Type', choices=STORE_TYPE_CHOICES)
+    store_type = models.IntegerField('Store Type', choices=STORE_TYPE_CHOICES, default=STORE_TYPE_RETAIL)
     chain = models.ForeignKey(Chain, related_name='stores', null=True, blank=True)
     editor = models.ForeignKey(USER_MODEL, related_name='editable_stores', null=True, blank=True)
     active = models.BooleanField('Active?', default=True)
