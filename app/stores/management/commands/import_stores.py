@@ -3,7 +3,8 @@ import requests
 from StringIO import StringIO
 from django.db import transaction
 from django.core.management.base import BaseCommand, CommandError
-from stores.models import Country, County, Address, Store
+from stores.models import Country, County, Address, Store, Link, LinkType
+from django.contrib.contenttypes.models import ContentType
 
 
 class Command(BaseCommand):
@@ -40,6 +41,10 @@ class Command(BaseCommand):
                 if website:
                     store.store_type = Store.STORE_TYPE_BOTH
                 store.save()
+                if twitter:
+                    Link(object_id=store.pk, object_type=ContentType.objects.get_for_model(store.__class__), account_type=LinkType.objects.get(name='Twitter'), account_name=twitter.split('/')[-1]).save()
+                #if facebook:
+                #    Link(object_id=store.pk, object_type=ContentType.objects.get_for_model(store.__class__), account_type=LinkType.objects.get(name='Facebook'), account_name=facebook).save()
             self.stdout.write("Done\n")
 
         f.close()

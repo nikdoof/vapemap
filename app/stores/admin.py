@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Chain, Store, Address, Brand, ClaimRequest
+from django.contrib.contenttypes.generic import GenericStackedInline
+from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType
+
+
+class LinkInlineAdmin(GenericStackedInline):
+    model = Link
+    ct_field = 'object_type'
 
 
 class ChainAdmin(admin.ModelAdmin):
@@ -7,14 +13,18 @@ class ChainAdmin(admin.ModelAdmin):
     list_display = ['name']
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name']
-
+    inlines = [
+        LinkInlineAdmin,
+    ]
 
 class StoreAdmin(admin.ModelAdmin):
     list_filter = ['chain', 'active']
     list_display = ['name', 'store_type', 'active']
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name']
-
+    inlines = [
+        LinkInlineAdmin,
+    ]
 
 class ClaimAdmin(admin.ModelAdmin):
     list_filter = ['status']
@@ -44,3 +54,4 @@ admin.site.register(Store, StoreAdmin)
 admin.site.register(Address, admin.ModelAdmin)
 admin.site.register(Brand, admin.ModelAdmin)
 admin.site.register(ClaimRequest, ClaimAdmin)
+admin.site.register(LinkType, admin.ModelAdmin)

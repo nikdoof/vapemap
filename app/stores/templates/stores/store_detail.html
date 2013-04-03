@@ -93,6 +93,9 @@ $(document).ready(function(){initialize_map_store()});
                 {% if store.website %}<li>Website: <a class="url" target="_new" href="{{ store.website }}">{{ store.website }}</a></li>{% endif %}
                 {% if store.email %}<li>Email: <a class="email" href="mailto:{{ store.email }}">{{ store.email }}</a></li>{% endif %}
                 {% if store.phone %}<li>Phone: <span class="tel">{{ store.phone }}</span></li>{% endif %}
+                {% for link in store.links.all %}
+                <li>{{ link.to_html|safe }}</li>
+                {% endfor %}
             </ul>
         </div>
 

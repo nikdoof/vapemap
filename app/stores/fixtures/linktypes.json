@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "stores.linktype", "fields": {"url_format": "https://www.facebook.com/%(account)s", "is_active": true, "name": "Facebook", "icon": "icon-globe"}}, {"pk": 2, "model": "stores.linktype", "fields": {"url_format": "http://twitter.com/%(account)s", "is_active": true, "name": "Twitter", "icon": "icon-globe"}}]

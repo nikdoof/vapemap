@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from .utils import caching_geo_lookup
+from stores.utils import caching_geo_lookup
 
 USER_MODEL = get_user_model()
 
@@ -19,6 +19,7 @@ class Chain(models.Model):
     active = models.BooleanField('Active?', default=True)
 
     long_description = models.TextField('Description', blank=True)
+    links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
     def save(self, **kwargs):
         if self.slug == '':
@@ -33,6 +34,7 @@ class Chain(models.Model):
 
     class Meta:
         ordering = ['name']
+        app_label = 'stores'
 
 
 class Store(models.Model):
@@ -58,6 +60,7 @@ class Store(models.Model):
     website = website = models.URLField('Website', null=True, blank=True)
     email = models.EmailField('Email', null=True, blank=True, help_text="Contact email address for the store.")
     phone = models.CharField('Phone', max_length=25, blank=True, help_text="Contact phone number for the store.")
+    links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
     long_description = models.TextField('Description', blank=True, help_text="Full description of the store, including any marketing material. Markdown supported.")
     brands = models.ManyToManyField('stores.Brand', null=True, blank=True, help_text="Brands that are sold by this store.")
@@ -85,6 +88,7 @@ class Store(models.Model):
 
     class Meta:
         ordering = ['name']
+        app_label = 'stores'
 
 
 class Brand(models.Model):
@@ -96,6 +100,7 @@ class Brand(models.Model):
 
     class Meta:
         ordering = ['name']
+        app_label = 'stores'
 
 
 class County(models.Model):
@@ -114,6 +119,7 @@ class County(models.Model):
 
     class Meta:
         ordering = ['name']
+        app_label = 'stores'
 
 
 class Country(models.Model):
@@ -132,6 +138,7 @@ class Country(models.Model):
 
     class Meta:
         ordering = ['name']
+        app_label = 'stores'
 
 
 class Address(models.Model):
@@ -186,6 +193,9 @@ class Address(models.Model):
                 self.geo_latitude, self.geo_longitude = res[1]
         return super(Address, self).save(**kwargs)
 
+    class Meta:
+        app_label = 'stores'
+
 
 class ClaimRequest(models.Model):
 
@@ -206,3 +216,6 @@ class ClaimRequest(models.Model):
     user = models.ForeignKey(USER_MODEL, related_name='claims')
     note = models.TextField('Claim Note')
     status = models.IntegerField('Status', choices=CLAIM_STATUS_CHOICES, default=CLAIM_STATUS_PENDING)
+
+    class Meta:
+        app_label = 'stores'
