@@ -103,6 +103,7 @@ class County(models.Model):
     UK Counties
     """
     name = models.CharField('Name', max_length=100)
+    country = models.ForeignKey('stores.Country', related_name='counties', null=True, blank=True)
 
     @property
     def stores(self):
