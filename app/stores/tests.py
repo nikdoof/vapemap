@@ -1,9 +1,13 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from stores.models import Chain, Store
+from stores.models import Chain, Store, Address, Country
 from waffle import Switch
 
-class StoreViewsTestCase(TestCase):
+
+class StoresViewsTestCase(TestCase):
+    """
+    Tests that all basic views return expected results without in-depth checking.
+    """
     fixtures = ['test_stores']
 
     def setUp(self):
@@ -54,3 +58,67 @@ class StoreViewsTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         resp = self.client.get(reverse('store-detail', args=['test-invalid']))
         self.assertEqual(resp.status_code, 404)
+
+
+class StoresUtilsTestCase(TestCase):
+
+    def test_caching_geo_lookup(self):
+        from stores.utils import caching_geo_lookup
+        from django.core.cache import cache
+        addr = "Bridge Street, Warrington, WA3"
+        slug = addr.lower().replace(',', '').replace(' ', '-')
+        print slug
+        lat, lng = caching_geo_lookup(addr)
+        self.assertNotEqual(lat, '')
+        self.assertNotEqual(lng, '')
+        self.assertIsNotNone(cache.get('geo_%s' % slug, None))
+
+    def test_haversine(self):
+        from stores.utils import haversine
+        self.assertEqual(haversine(1, 1, 2, 2), 157.1267188489107)
+
+
+class StoresChainModelTestCase(TestCase):
+    """
+    Basic tests against the Chain model
+    """
+
+    def test_slug_creation(self):
+        obj = Chain(name='Test Chain 1')
+        obj.save()
+        self.assertEqual(obj.slug, 'test-chain-1')
+
+    def test_absolute_url(self):
+        obj = Chain(name='Test Chain 2')
+        obj.save()
+        self.assertEqual(str(obj.get_absolute_url()), '/chains/test-chain-2/')
+
+    def test_chain_name(self):
+        obj = Chain(name='Test Chain 3')
+        self.assertEqual(str(obj), 'Test Chain 3')
+
+
+class StoresStoreModelTestCase(TestCase):
+    """
+    Basic tests against the Store model
+    """
+    fixtures = ['countries']
+
+    def setUp(self):
+        country = Country.objects.get(name='United Kingdom')
+        self.addr = Address(name='test', address1='Bridge Street', city='Warrington', country=country, postcode='WA3')
+        self.addr.save()
+
+    def test_slug_creation(self):
+        obj = Store(name='Test Store 1', address=self.addr)
+        obj.save()
+        self.assertEqual(obj.slug, 'test-store-1')
+
+    def test_absolute_url(self):
+        obj = Store(name='Test Store 2', address=self.addr)
+        obj.save()
+        self.assertEqual(str(obj.get_absolute_url()), '/stores/test-store-2/')
+
+    def test_chain_name(self):
+        obj = Store(name='Test Store 3', address=self.addr)
+        self.assertEqual(str(obj), 'Test Store 3')
