@@ -1,8 +1,8 @@
 from .base import *
 
-
 INSTALLED_APPS.append('debug_toolbar')
 MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+
 
 def custom_show_toolbar(request):
     return True

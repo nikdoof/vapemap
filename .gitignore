@@ -4,3 +4,4 @@
 .vagrant
 static/
 !app/*/static/
+app/reports/

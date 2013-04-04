@@ -1,5 +1,9 @@
 from .base import *
 
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///%s' % os.path.join(os.path.dirname(__file__), '..', '..', '..', 'testing.sqlite3')),
+}
+
 INSTALLED_APPS += [
     'django_jenkins',
 ]
