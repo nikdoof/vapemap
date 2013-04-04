@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from stores.models import Chain, Store
+from waffle import Switch
 
 class StoreViewsTestCase(TestCase):
     fixtures = ['test_stores']
@@ -8,6 +9,9 @@ class StoreViewsTestCase(TestCase):
     def setUp(self):
         self.store = Store.objects.get(pk=3)
         self.chain = Chain.objects.get(pk=1)
+
+        # Enable claim support for the tests
+        Switch.objects.create(name='claim_support', active=True)
 
     def test_map_index(self):
         resp = self.client.get(reverse('map'))
@@ -37,7 +41,7 @@ class StoreViewsTestCase(TestCase):
         resp = self.client.get(reverse('store-claim', args=[self.store.slug]))
         self.assertEqual(resp.status_code, 200)
         resp = self.client.get(reverse('store-claim', args=['test-invalid']))
-        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.status_code, 404)
 
     def test_store_update(self):
         resp = self.client.get(reverse('store-update', args=[self.store.slug]))
