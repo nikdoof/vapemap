@@ -1,5 +1,6 @@
 from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from ..forms import ClaimRequestForm
@@ -16,6 +17,8 @@ class ClaimCreateView(WaffleSwitchMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         self.target_obj = self.get_target_object()
+        if not self.target_obj:
+            raise Http404
         return super(ClaimCreateView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -24,7 +27,11 @@ class ClaimCreateView(WaffleSwitchMixin, CreateView):
 
     def get_target_object(self):
         obj_slug = self.kwargs.get('slug')
-        return self.target_model.objects.get(slug=obj_slug)
+        try:
+            obj = self.target_model.objects.get(slug=obj_slug)
+        except self.target_model.DoesNotExist:
+            return None
+        return obj
 
     def get_context_data(self, **kwargs):
         ctx = super(ClaimCreateView, self).get_context_data(**kwargs)
