@@ -1,8 +1,8 @@
-from django.utils import unittest
+from django.test import TestCase
 from django.core.urlresolvers import reverse
 
 
-class StoreViewsTestCase(unittest.TestCase):
+class StoreViewsTestCase(TestCase):
 
     def test_map_index(self):
         resp = self.client.get(reverse('map'))
