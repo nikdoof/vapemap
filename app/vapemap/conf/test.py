@@ -1,7 +1,7 @@
 from .base import *
 
 INSTALLED_APPS += [
-    'django-jenkins',
+    'django_jenkins',
 ]
 
 PROJECT_APPS = [
