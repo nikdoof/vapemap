@@ -15,7 +15,7 @@ class StoresViewsTestCase(TestCase):
         self.chain = Chain.objects.get(pk=1)
 
         # Enable claim support for the tests
-        Switch.objects.create(name='claim_support', active=True)
+        Switch.objects.filter(name='claim_support').update(active=True)
 
     def test_map_index(self):
         resp = self.client.get(reverse('map'))
