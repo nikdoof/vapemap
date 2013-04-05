@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 country, created = Country.objects.get_or_create(name=country)
                 county, created = County.objects.get_or_create(name=county, country=country)
                 addr = Address(name=name, address1=addr1, address2=addr2, address3=addr3, city=city, county=county, country=country, postcode=postcode, geo_latitude=y, geo_longitude=x)
-                addr.save()
+                addr.save(no_lookup=True)
                 store = Store(name=name, address=addr, website=website, email=email, phone=phone)
                 if website:
                     store.store_type = Store.STORE_TYPE_BOTH

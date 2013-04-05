@@ -187,7 +187,8 @@ class Address(models.Model):
         return self.address_string
 
     def save(self, **kwargs):
-        if not self.geo_latitude and not self.geo_longitude:
+        no_lookup = kwargs.pop('no_lookup', None)
+        if not no_lookup and not self.geo_latitude and not self.geo_longitude:
             res = caching_geo_lookup(self.address_string)
             if res:
                 self.geo_latitude, self.geo_longitude = res[1]

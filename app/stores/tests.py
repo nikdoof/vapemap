@@ -122,3 +122,22 @@ class StoresStoreModelTestCase(TestCase):
     def test_chain_name(self):
         obj = Store(name='Test Store 3', address=self.addr)
         self.assertEqual(str(obj), 'Test Store 3')
+
+
+class StoresAddressModelTestCase(TestCase):
+
+    fixtures = ['countries']
+
+    def test_geo_lookup(self):
+        country = Country.objects.get(name='United Kingdom')
+        addr = Address(name='test', address1='Bridge Street', city='Warrington', country=country, postcode='WA3')
+        addr.save()
+        self.assertIsNotNone(addr.geo_latitude)
+        self.assertIsNotNone(addr.geo_longitude)
+
+    def test_skip_geo_lookup(self):
+        country = Country.objects.get(name='United Kingdom')
+        addr = Address(name='test', address1='Bridge Street', city='Warrington', country=country, postcode='WA3')
+        addr.save(no_lookup=True)
+        self.assertIsNone(addr.geo_latitude)
+        self.assertIsNone(addr.geo_longitude)
