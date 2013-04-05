@@ -20,31 +20,57 @@ class Command(BaseCommand):
             self.stdout.write("Opening file %s\n" % file)
             f = open(file, 'r')
 
-        for row in csv.reader(f):
-            row = [x.strip() for x in row]
-            name, addr1, addr2, addr3, city, county, country, postcode, email, website, phone, y, x, twitter, facebook, facebook2 = row
-            self.stdout.write("Importing %s... " % name)
+        self.stdout.write('Formatting data...')
+        # Generate the dataset
+        reader = csv.reader(f)
+        headers = [h.lower().strip() for h in reader.next()]
+        data = []
+        for row in reader:
+            values = []
+            for h, v in zip(headers, row):
+                if v == '':
+                    value = None
+                else:
+                    value = v.strip()
+                values.append((h, value))
+            data.append(dict(values))
+
+        self.stdout.write('%d entries found.' % len(data))
+        for row in data:
+            self.stdout.write("Importing %s... " % row['name'])
             try:
-                obj = Store.objects.get(name=name)
+                obj = Store.objects.get(name=row['name'])
             except Store.DoesNotExist:
                 pass
             else:
-                if obj.address.postcode == postcode:
+                if obj.address.postcode == row['postcode']:
                     self.stdout.write("Store by that name already exists, skipping.\n")
                     continue
             with transaction.commit_on_success():
-                country, created = Country.objects.get_or_create(name=country)
-                county, created = County.objects.get_or_create(name=county, country=country)
-                addr = Address(name=name, address1=addr1, address2=addr2, address3=addr3, city=city, county=county, country=country, postcode=postcode, geo_latitude=y, geo_longitude=x)
+                if not row['country']:
+                    row['country'] = 'United Kingdom'
+                country, created = Country.objects.get_or_create(name=row['country'])
+                county, created = County.objects.get_or_create(name=row['county'], country=country)
+                addr = Address(name=row['name'], address1=row['address1'], address2=row['address2'],
+                               address3=row['address3'], city=row['city'], county=county, country=country,
+                               postcode=row['postcode'], geo_latitude=row['y'], geo_longitude=row['x'])
                 addr.save(no_lookup=True)
-                store = Store(name=name, address=addr, website=website, email=email, phone=phone)
-                if website:
+                store = Store(name=row['name'], address=addr, website=row['website'], email=row['email'],
+                              phone=row['phone'])
+                if row['type']:
+                    if row['type'] == 'Online':
+                        store.store_type = Store.STORE_TYPE_ONLINE
+                    if row['type'] == 'Retail':
+                        store.store_type = Store.STORE_TYPE_RETAIL
+                    if row['type'] == 'Both':
+                        store.store_type = Store.STORE_TYPE_BOTH
+                elif row['website']:
                     store.store_type = Store.STORE_TYPE_BOTH
                 store.save()
-                if twitter:
-                    Link(object_id=store.pk, object_type=ContentType.objects.get_for_model(store.__class__), account_type=LinkType.objects.get(name='Twitter'), account_name=twitter.split('/')[-1]).save()
-                #if facebook:
-                #    Link(object_id=store.pk, object_type=ContentType.objects.get_for_model(store.__class__), account_type=LinkType.objects.get(name='Facebook'), account_name=facebook).save()
+                if row['twitter']:
+                    Link(object_id=store.pk, object_type=ContentType.objects.get_for_model(store.__class__),
+                         account_type=LinkType.objects.get(name='Twitter'),
+                         account_name=row['twitter'].split('/')[-1]).save()
             self.stdout.write("Done\n")
 
         f.close()
