@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style type="text/css">
+        #site-error {
+            text-align:  center;
+        }
+        #site-error h1 {
+            font-size: 70px;
+            line-height: 70px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div id="site-error" class="span12">
+        <h1>Oops</h1>
+        <p>It seems we hit a error serving your request. This may be a temporary error, so please try again in a minute or so.</p>
+        {% if request.sentry %}
+        <p>If you've hit the same issue more than once, please consider using the Feedback tab and informing us what steps you took to produce this error, citing {{ request.sentry.id }} as the Error ID code.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

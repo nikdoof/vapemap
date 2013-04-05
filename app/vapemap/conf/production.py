@@ -2,6 +2,10 @@ from .base import *
 
 DEBUG = False
 
+MIDDLEWARE_CLASSES += [
+    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+]
+
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', 'vapemap-static')
