@@ -4,8 +4,8 @@ from .models import Store
 
 class StoreIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    address = indexes.CharField(model_attr='address__full_address')
-    location = indexes.LocationField(model_attr='address__geo_location')
+    address = indexes.CharField(model_attr='get_full_address')
+    location = indexes.LocationField(model_attr='get_location')
 
     def get_model(self):
         return Store
