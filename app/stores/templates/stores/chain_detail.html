@@ -22,7 +22,7 @@
 <script type="text/javascript" src="{% static "js/gmap.js" %}"></script>
 <script type="text/javascript">
     var stores = [
-            {% for store in chain.stores.all %}{% if store.address.geo_latitude  %}['{{ store }}', {{ store.address.geo_latitude }}, {{ store.address.geo_longitude }}],{% endif %}
+        {% for store in store_list %}{% if store.address.geo_latitude  %}['{{ store }}', {{ store.address.geo_latitude }}, {{ store.address.geo_longitude }}, {{ store.store_type }}, '{% url "store-detail" store.slug %}'],{% endif %}
         {% endfor %}
     ];
     $(document).ready(function(){initialize_map(stores, document.getElementById('map-canvas-stores'))});
