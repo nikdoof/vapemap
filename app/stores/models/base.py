@@ -147,8 +147,8 @@ class Address(models.Model):
     """
     name = models.CharField('Address Name', max_length=200)
     address1 = models.CharField('Address Line 1', max_length=200, help_text="First line of the address. e.g. <em>1 Station Road</em>")
-    address2 = models.CharField('Address Line 2', max_length=200, blank=True, help_text="(Optional) Second line of the address")
-    address3 = models.CharField('Address Line 3', max_length=200, blank=True, help_text="(Optional) Third line of the address")
+    address2 = models.CharField('Address Line 2', max_length=200, null=True, blank=True, help_text="(Optional) Second line of the address")
+    address3 = models.CharField('Address Line 3', max_length=200, null=True, blank=True, help_text="(Optional) Third line of the address")
     city = models.CharField('Town/City', max_length='50', help_text="City or town")
     county = models.ForeignKey('stores.County', related_name='addresses', null=True, blank=True, help_text="County or suburban area. (Ignore if the store is outside the UK)")
     country = models.ForeignKey('stores.Country', related_name='addresses')
