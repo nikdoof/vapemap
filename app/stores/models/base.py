@@ -18,7 +18,7 @@ class Chain(models.Model):
     editor = models.ForeignKey(USER_MODEL, related_name='editable_chains', blank=True, null=True)
     active = models.BooleanField('Active?', default=True)
 
-    long_description = models.TextField('Description', blank=True)
+    long_description = models.TextField('Description', null=True, blank=True)
     links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
     def save(self, **kwargs):
@@ -59,10 +59,10 @@ class Store(models.Model):
 
     website = website = models.URLField('Website', null=True, blank=True)
     email = models.EmailField('Email', null=True, blank=True, help_text="Contact email address for the store.")
-    phone = models.CharField('Phone', max_length=25, blank=True, help_text="Contact phone number for the store.")
+    phone = models.CharField('Phone', max_length=25, null=True, blank=True, help_text="Contact phone number for the store.")
     links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
-    long_description = models.TextField('Description', blank=True, help_text="Full description of the store, including any marketing material. Markdown supported.")
+    long_description = models.TextField('Description', null=True, blank=True, help_text="Full description of the store, including any marketing material. Markdown supported.")
     brands = models.ManyToManyField('stores.Brand', null=True, blank=True, help_text="Brands that are sold by this store.")
 
     def get_full_address(self):
