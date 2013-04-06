@@ -159,15 +159,16 @@ class Address(models.Model):
 
     @property
     def full_address(self):
-        return u', '.join([
+        fields = [
             self.address1,
             self.address2,
             self.address3,
             self.city,
-            unicode(self.county),
+            self.county.name,
             self.postcode,
-            unicode(self.country),
-            ])
+            self.country.name,
+            ]
+        return ', '.join([f for f in fields if f])
 
     @property
     def address_string(self):
