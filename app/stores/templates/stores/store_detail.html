@@ -104,7 +104,7 @@ $(document).ready(function(){initialize_map_store()});
 
         <div id="map-canvas-store" style="width: 300px; height: 300px;" class="map">
             <noscript>
-                <img alt="Map of {{ store.address.address_string }}" src="https://maps.google.com/maps/api/staticmap?center={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&zoom=16&markers={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&size=300x300&sensor=false">
+                <img alt="Map of {{ store.address.full_address }}" src="https://maps.google.com/maps/api/staticmap?center={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&zoom=16&markers={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&size=300x300&sensor=false">
             </noscript>
         </div>
     </div>

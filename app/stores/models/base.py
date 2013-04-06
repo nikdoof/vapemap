@@ -164,19 +164,11 @@ class Address(models.Model):
             self.address2,
             self.address3,
             self.city,
-            self.county.name,
+            self.county,
             self.postcode,
             self.country.name,
-            ]
-        return ', '.join([f for f in fields if f])
-
-    @property
-    def address_string(self):
-        return u', '.join([
-            self.address1,
-            self.postcode,
-            unicode(self.country),
-        ])
+        ]
+        return ', '.join([f.strip() for f in fields if f and f.strip() != ''])
 
     @property
     def geo_location(self):
@@ -190,7 +182,7 @@ class Address(models.Model):
     def save(self, **kwargs):
         no_lookup = kwargs.pop('no_lookup', None)
         if not no_lookup and not self.geo_latitude and not self.geo_longitude:
-            res = caching_geo_lookup(self.address_string)
+            res = caching_geo_lookup(self.full_address)
             if res:
                 self.geo_latitude, self.geo_longitude = res[1]
         return super(Address, self).save(**kwargs)
