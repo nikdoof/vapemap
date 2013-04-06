@@ -168,7 +168,7 @@ class Address(models.Model):
             self.postcode,
             self.country.name,
         ]
-        return ', '.join([f.strip() for f in fields if f and f.strip() != ''])
+        return u', '.join([unicode(f).strip() for f in fields if f and unicode(f).strip() != ''])
 
     @property
     def geo_location(self):
