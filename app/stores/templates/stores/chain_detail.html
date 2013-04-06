@@ -2,6 +2,7 @@
 {% load markdown_deux_tags %}
 {% load staticfiles %}
 {% load waffle_tags %}
+{% load moderation %}
 
 {% block title %}
     {{ chain.name }}
@@ -49,6 +50,7 @@
             {% else %}
                 <p>No description / write up available for this chain at the moment.</p>
             {% endif %}
+            <p>{% flag_button %}</p>
         </div>
     </div>
 
@@ -74,4 +76,5 @@
             </div>
         </div>
     </div>
+    {% flag_form chain %}
 {% endblock %}

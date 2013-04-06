@@ -5,6 +5,7 @@ geopy>=0.95
 django-markdown-deux>=1.0.4
 django-bootstrap-form>=1.4
 django-extra-views>=0.6.2
+-e git+git://github.com/brack3t/django-braces.git@e0a8f04419eee0ca5809a62cffd3f5d1e80bb059#egg=django_braces
 -e hg+https://bitbucket.org/alper/django-registration@1cddccb#egg=django_registration
 requests
 pyelasticsearch

@@ -55,7 +55,9 @@
                 </div>
             </div>
         </div>
+        <div id="alert-container">
     {% if messages %}
+
         {% for message in messages %}
         <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
             <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -63,6 +65,7 @@
         </div>
         {% endfor %}
     {% endif %}
+        </div>
 
     {% block content %}
     {% endblock %}

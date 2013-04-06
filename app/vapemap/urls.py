@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'user/', include('registration.backends.default.urls')),
     url(r'user/', include('django.contrib.auth.urls')),
     url(r'^search/', include('haystack.urls')),
+    url(r'^moderation/', include('moderation.urls')),
     url('', include('stores.urls'))
 )
 

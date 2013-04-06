@@ -1,0 +1,81 @@
+<div id="report-modal" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Report {{ object }}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="type">Type of Issue</label>
+                <div class="controls">
+                    <select id="type">
+                        {% for type in flagtypes %}
+                        <option value="{{ type.pk }}">{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="note">Note</label>
+                <div class="controls">
+                    <textarea id="note" rows=5 class="input-xlarge"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a id="report-button" href="#" class="btn btn-primary" onclick="submit_report()" data-loading-text="Submitting...">Report</a>
+        <script type="text/javascript">
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function bootstrap_alert(message, cls) {
+                $('#alert-container').append('<div class="alert alert-'+cls+'"><a class="close" data-dismiss="alert">&times;</a>'+message+'</div>')
+            }
+            function submit_report(){
+                $('#report-button').button('loading');
+                var data = {
+                    app: '{{ contenttype.app_label }}',
+                    model: '{{ contenttype.model }}',
+                    id: {{ object.pk }},
+                    flag_type: $('select#type').val(),
+                    note: $('textarea#note').val()
+                }
+                console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "moderation_flagobject" %}',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }).done(function(data) {
+                    bootstrap_alert('Report successfully created for the moderators to review', 'success');
+                    $('#report-modal').modal('hide');
+                    $('#report-button').button('reset');
+                    console.log(data);
+                }).error(function(data){
+                    console.log(data);
+                    bootstrap_alert('An error was encountered while creating the report. Please try again later.', 'error');
+                    $('#report-modal').modal('hide');
+                    $('#report-button').button('reset');
+                });
+                return false;
+            }
+        </script>
+    </div>
+</div>
