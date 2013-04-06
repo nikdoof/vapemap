@@ -1,0 +1,16 @@
+Hi,
+
+We've got you noted down as the owner of {{ store }} in {{ store.address.city }} and we just want to make you aware of a new site that has been setup to assist shoppers in finding online and local bricks and mortar stores that specialise in e-cigarette related materials. 
+
+Vapour Hunter (http://www.vapourhunter.com) is a site that aims to catalogue and list all vapour stores across the world. We're starting small by adding in everyone we can find in the UK, but in the future we'll expand out to try and list as many worldwide, and will be adding more features to allow our users to find your store quicker.
+
+As we're working mostly with online sources which can be out of date, we're asking store owners to check the information. If you have a spare moment please check out your listing at http://www.vapourhunter.com{% url "store-detail" store.slug %} and drop us a quick email if anything is wrong. Soon we'll be rolling out the ability for store owners to register and manage their store information directly on the website, but we want to make sure that the information is up to date before enabling that feature.
+
+If you have received multiple copies of this email, your email address is registered as the contact address for multiple businesses. Please accept our apologies for any inconvenience this causes. 
+
+If you have any questions, corrections, or queries about the site, please feel free to contact me directly. 
+
+Thanks,
+
+Andy
+VapourHunter.com
