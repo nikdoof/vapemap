@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^chains/(?P<slug>.*)/$', ChainDetailView.as_view(), name='chain-detail'),
 
     url(r'^stores/$', StoreListView.as_view(), name='store-list'),
+    url(r'^stores/retail/$', RetailStoreListView.as_view(), name='store-retail-list'),
+    url(r'^stores/online/$', OnlineStoreListView.as_view(), name='store-online-list'),
     url(r'^stores/create/$', StoreCreateView.as_view([AddressForm, StoreForm]), name='store-create'),
     url(r'^stores/search/$', DistanceSearchView.as_view(), name='store-search'),
     url(r'^stores/(?P<slug>.*)/claim/$', ClaimCreateView.as_view(target_model=Store), name='store-claim'),

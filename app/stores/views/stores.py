@@ -27,6 +27,21 @@ class StoreListView(HaystackSearchListMixin, ListView):
         return qs.filter(active=True).select_related('address', 'address__country')
 
 
+class OnlineStoreListView(StoreListView):
+    template_name_suffix = '_online_list'
+
+    def get_queryset(self):
+        qs = super(OnlineStoreListView, self).get_queryset()
+        return qs.filter(store_type__in=[Store.STORE_TYPE_ONLINE, Store.STORE_TYPE_BOTH])
+
+
+class RetailStoreListView(StoreListView):
+
+    def get_queryset(self):
+        qs = super(RetailStoreListView, self).get_queryset()
+        return qs.filter(store_type__in=[Store.STORE_TYPE_ONLINE, Store.STORE_TYPE_BOTH])
+
+
 class StoreDetailView(EditorCheckMixin, DetailView):
     model = Store
 
