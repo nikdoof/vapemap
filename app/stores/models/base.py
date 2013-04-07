@@ -152,7 +152,7 @@ class Address(models.Model):
     city = models.CharField('Town/City', max_length='50', help_text="City or town")
     county = models.ForeignKey('stores.County', related_name='addresses', null=True, blank=True, help_text="County or suburban area. (Ignore if the store is outside the UK)")
     country = models.ForeignKey('stores.Country', related_name='addresses')
-    postcode = models.CharField('Postcode / Zipcode', max_length=20, help_text="Post Code or Zip Code, e.g. <em>M1 1AA</em> or <em>60647</em>")
+    postcode = models.CharField('Postcode / Zipcode', max_length=20, null=True, blank=True, help_text="Post Code or Zip Code, e.g. <em>M1 1AA</em> or <em>60647</em>")
 
     geo_latitude = models.FloatField('Latitude', null=True, blank=True)
     geo_longitude = models.FloatField('Longitude', null=True, blank=True)
