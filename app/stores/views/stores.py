@@ -36,6 +36,7 @@ class OnlineStoreListView(StoreListView):
 
 
 class RetailStoreListView(StoreListView):
+    template_name_suffix = '_retail_list'
 
     def get_queryset(self):
         qs = super(RetailStoreListView, self).get_queryset()
