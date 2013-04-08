@@ -15,20 +15,21 @@ function lookup_marker(id) {
     }
 }
 
-function initialize_map(markers, element) {
+function initialize_map(marker_data, element) {
     var mapOptions = {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(element, mapOptions);
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0; i < markers.length; i++) {
-        marker = markers[i];
+
+    var markers = [];
+    for (var i = 0; i < marker_data.length; i++) {
+        var marker = marker_data[i];
         if (marker[1] != null && marker[2] != null) {
             var latlng = new google.maps.LatLng(marker[1], marker[2]);
             bounds.extend(latlng);
             var marker_obj = new google.maps.Marker({
                 position: latlng,
-                map: map,
                 title: marker[0],
                 icon: lookup_marker(marker[3])
             });
@@ -39,6 +40,14 @@ function initialize_map(markers, element) {
                     }
                 })(marker));
             }
+            markers.push(marker_obj)
+        }
+    }
+    if (markers.length >= 100) {
+        var markerCluster = new MarkerClusterer(map, markers);
+    } else {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
         }
     }
     map.fitBounds(bounds)

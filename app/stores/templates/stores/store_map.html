@@ -17,6 +17,7 @@
 
 {% block scripts %}
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{% static "js/markerclusterer.js" %}"></script>
     <script type="text/javascript" src="{% static "js/gmap.js" %}"></script>
     {% switch map_geolocation %}
     <script type="text/javascript" src="{% static "js/geolocation.js" %}"></script>
@@ -26,7 +27,7 @@
             {% for store in store_list %}{% if store.address.geo_latitude  %}['{{ store }}', {{ store.address.geo_latitude }}, {{ store.address.geo_longitude }}, {{ store.store_type }}, '{% url "store-detail" store.slug %}'],{% endif %}
             {% endfor %}
         ];
-        $(document).ready(function(){initialize_map(stores, document.getElementById('map-canvas-stores'))});
+        $(document).ready(function(){initialize_map(stores, document.getElementById('map-canvas-stores'), true)});
     </script>
 {% endblock %}
 
