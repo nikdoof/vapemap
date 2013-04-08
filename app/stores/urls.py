@@ -21,4 +21,6 @@ urlpatterns = patterns('',
     url(r'^stores/(?P<pk>\d+)/$', StoreDetailView.as_view(), name='store-detail-pk'),
     url(r'^stores/(?P<slug>.*)/$', StoreDetailView.as_view(), name='store-detail'),
 
+    url(r'^brands/$', BrandListView.as_view(), name='brand-list'),
+    url(r'^brands/(?P<brand>.*)/$', StockistStoreListView.as_view(), name='brand-detail'),
 )

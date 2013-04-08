@@ -1,11 +1,11 @@
 from django.views.generic import ListView, DetailView, UpdateView
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.contrib import messages
 from django.contrib.formtools.wizard.views import SessionWizardView
 from .mixins import EditorCheckMixin, HaystackSearchListMixin
-from ..forms import AddressInline, StoreForm, AddressForm
-from ..models import Store
+from ..forms import StoreForm, AddressForm
+from ..models import Store, Brand
 
 
 class StoreListView(HaystackSearchListMixin, ListView):
@@ -41,6 +41,28 @@ class RetailStoreListView(StoreListView):
     def get_queryset(self):
         qs = super(RetailStoreListView, self).get_queryset()
         return qs.filter(store_type__in=[Store.STORE_TYPE_ONLINE, Store.STORE_TYPE_BOTH])
+
+
+class StockistStoreListView(StoreListView):
+    template_name_suffix = '_stockist_list'
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.brand = Brand.objects.get(name=kwargs.pop('brand', None))
+        except Brand.DoesNotExist:
+            raise Http404
+        return super(StockistStoreListView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(StockistStoreListView, self).get_context_data(**kwargs)
+        ctx.update({
+            'brand': self.brand,
+            })
+        return ctx
+
+    def get_queryset(self):
+        qs = super(StockistStoreListView, self).get_queryset()
+        return qs.filter(brands__in=[self.brand])
 
 
 class StoreDetailView(EditorCheckMixin, DetailView):

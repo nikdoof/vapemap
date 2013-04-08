@@ -63,7 +63,7 @@ class Store(models.Model):
     links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
     long_description = models.TextField('Description', null=True, blank=True, help_text="Full description of the store, including any marketing material. Markdown supported.")
-    brands = models.ManyToManyField('stores.Brand', null=True, blank=True, help_text="Brands that are sold by this store.")
+    brands = models.ManyToManyField('stores.Brand', related_name='stores', null=True, blank=True, help_text="Brands that are sold by this store.")
 
     def get_full_address(self):
         if self.address:

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Brands
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Brands</h1>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Name</th><th># of Stockists</th></tr>
+                </thead>
+                <tbody>
+                {% for brand in brand_list %}
+                    <tr>
+                        <td><a href="{% url "brand-detail" brand.name %}">{{ brand }}</a></td>
+                        <td>{{ brand.stores.count }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include "stores/paginator.html" %}
+        </div>
+    </div>
+{% endblock %}
