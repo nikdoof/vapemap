@@ -1,3 +1,8 @@
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from django import forms
+from django.db import transaction
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
 from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType
@@ -25,6 +30,61 @@ class StoreAdmin(admin.ModelAdmin):
     inlines = [
         LinkInlineAdmin,
     ]
+    actions = ['add_brand', 'set_chain']
+
+    class AddBrandForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        brand = forms.ModelChoiceField(Brand.objects)
+
+    def add_brand(self, request, queryset):
+        form = None
+        if 'apply' in request.POST:
+            form = self.AddBrandForm(request.POST)
+            if form.is_valid():
+                count = queryset.count()
+                brand = form.cleaned_data['brand']
+                with transaction.commit_on_success():
+                    for store in queryset:
+                        store.brands.add(brand)
+                if count > 1:
+                    plural = 's'
+                else:
+                    plural = ''
+                self.message_user(request, "Successfully added %s to %d store%s." % (brand, count, plural))
+                return HttpResponseRedirect(request.get_full_path())
+        if not form:
+            form = self.AddBrandForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        return render_to_response('admin/add_brand.html', {'stores': queryset, 'brand_form': form }, RequestContext(request))
+
+    add_brand.short_description = "Add brand to the selected stores"
+
+    class SetChainForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        chain = forms.ModelChoiceField(Chain.objects)
+
+    def set_chain(self, request, queryset):
+        form = None
+        if 'apply' in request.POST:
+            form = self.SetChainForm(request.POST)
+            if form.is_valid():
+                count = queryset.count()
+                chain = form.cleaned_data['chain']
+                with transaction.commit_on_success():
+                    for store in queryset:
+                        store.chain = chain
+                        store.save()
+                if count > 1:
+                    plural = 's'
+                else:
+                    plural = ''
+                self.message_user(request, "Successfully set %d store%s to %s." % (count, plural, chain))
+                return HttpResponseRedirect(request.get_full_path())
+        if not form:
+            form = self.SetChainForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        return render_to_response('admin/set_chain.html', {'stores': queryset, 'chain_form': form }, RequestContext(request))
+
+    set_chain.short_description = "Set the selected store's chain"
+
 
 class ClaimAdmin(admin.ModelAdmin):
     list_filter = ['status']
