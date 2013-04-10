@@ -111,7 +111,7 @@ class ClaimAdmin(admin.ModelAdmin):
 
 
 class CountyAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address_count']
+    list_display = ['pk', 'name', 'country', 'address_count']
 
     def address_count(self, obj):
         return obj.address_count
@@ -123,7 +123,7 @@ class CountyAdmin(admin.ModelAdmin):
 
 
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address_count', 'county_count']
+    list_display = ['pk', 'name', 'address_count', 'county_count']
 
     def address_count(self, obj):
         return obj.address_count
