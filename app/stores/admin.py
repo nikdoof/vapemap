@@ -112,6 +112,7 @@ class ClaimAdmin(admin.ModelAdmin):
 
 class CountyAdmin(admin.ModelAdmin):
     list_display = ['pk', 'name', 'country', 'address_count']
+    actions = ['set_country']
 
     def address_count(self, obj):
         return obj.address_count
@@ -120,6 +121,28 @@ class CountyAdmin(admin.ModelAdmin):
     def queryset(self, request):
         qs = super(CountyAdmin, self).queryset(request)
         return qs.annotate(address_count=Count('addresses'))
+
+    class SetCountryForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        country = forms.ModelChoiceField(Country.objects)
+
+    def set_country(self, request, queryset):
+        form = None
+        if 'apply' in request.POST:
+            form = self.SetCountryForm(request.POST)
+            if form.is_valid():
+                country = form.cleaned_data['country']
+                with transaction.commit_on_success():
+                    for county in queryset:
+                        county.country = country
+                        county.save()
+                self.message_user(request, "Successfully set %d counties to %s." % (queryset.count(), country))
+                return HttpResponseRedirect(request.get_full_path())
+        if not form:
+            form = self.SetCountryForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        return render_to_response('admin/set_country.html', {'stores': queryset, 'country_form': form}, RequestContext(request))
+
+    set_country.short_description = "Set the selected county's country"
 
 
 class CountryAdmin(admin.ModelAdmin):
