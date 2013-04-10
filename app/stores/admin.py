@@ -31,11 +31,17 @@ class StoreAdmin(admin.ModelAdmin):
     inlines = [
         LinkInlineAdmin,
     ]
-    actions = ['add_brand', 'set_chain']
+    actions = ['set_active', 'add_brand', 'set_chain']
 
     class AddBrandForm(forms.Form):
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
         brand = forms.ModelChoiceField(Brand.objects)
+
+    def set_active(self, request, queryset):
+        with transaction.commit_on_success():
+            queryset.update(active=True)
+        self.message_user(request, "Successfully set %d stores to active." % queryset.count())
+    set_active.short_description = 'Set selected stores active.'
 
     def add_brand(self, request, queryset):
         form = None
