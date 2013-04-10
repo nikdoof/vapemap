@@ -120,6 +120,7 @@ class County(models.Model):
     class Meta:
         ordering = ['name']
         app_label = 'stores'
+        verbose_name_plural = 'Counties'
 
 
 class Country(models.Model):
@@ -139,6 +140,7 @@ class Country(models.Model):
     class Meta:
         ordering = ['name']
         app_label = 'stores'
+        verbose_name_plural = 'Countries'
 
 
 class Address(models.Model):

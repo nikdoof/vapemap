@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django import forms
 from django.db import transaction
+from django.db.models import Count
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
 from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType, County, Country
@@ -109,11 +110,39 @@ class ClaimAdmin(admin.ModelAdmin):
     approve_request.short_description = 'Approve selected requests.'
 
 
+class CountyAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address_count']
+
+    def address_count(self, obj):
+        return obj.address_count
+    address_count.admin_order_field = 'address_count'
+
+    def queryset(self, request):
+        qs = super(CountyAdmin, self).queryset(request)
+        return qs.annotate(address_count=Count('addresses'))
+
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address_count', 'county_count']
+
+    def address_count(self, obj):
+        return obj.address_count
+    address_count.admin_order_field = 'address_count'
+
+    def county_count(self, obj):
+        return obj.county_count
+    county_count.admin_order_field = 'county_count'
+
+    def queryset(self, request):
+        qs = super(CountryAdmin, self).queryset(request)
+        return qs.annotate(address_count=Count('addresses'), county_count=Count('counties'))
+
+
 admin.site.register(Chain, ChainAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(Address, admin.ModelAdmin)
 admin.site.register(Brand, admin.ModelAdmin)
 admin.site.register(ClaimRequest, ClaimAdmin)
 admin.site.register(LinkType, admin.ModelAdmin)
-admin.site.register(County, admin.ModelAdmin)
-admin.site.register(Country, admin.ModelAdmin)
+admin.site.register(County, CountyAdmin)
+admin.site.register(Country, CountryAdmin)
