@@ -40,7 +40,7 @@ class RetailStoreListView(StoreListView):
 
     def get_queryset(self):
         qs = super(RetailStoreListView, self).get_queryset()
-        return qs.filter(store_type__in=[Store.STORE_TYPE_ONLINE, Store.STORE_TYPE_BOTH])
+        return qs.filter(store_type__in=[Store.STORE_TYPE_RETAIL, Store.STORE_TYPE_BOTH])
 
 
 class StockistStoreListView(StoreListView):
