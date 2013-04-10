@@ -5,7 +5,7 @@ from django import forms
 from django.db import transaction
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
-from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType
+from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType, County, Country
 
 
 class LinkInlineAdmin(GenericStackedInline):
@@ -115,3 +115,5 @@ admin.site.register(Address, admin.ModelAdmin)
 admin.site.register(Brand, admin.ModelAdmin)
 admin.site.register(ClaimRequest, ClaimAdmin)
 admin.site.register(LinkType, admin.ModelAdmin)
+admin.site.register(County, admin.ModelAdmin)
+admin.site.register(Country, admin.ModelAdmin)
