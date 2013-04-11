@@ -161,3 +161,13 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'vapemap-haystack',
     },
 }
+
+MARKDOWN_DEUX_STYLES = {
+    "default": {
+        "extras": {
+            "code-friendly": None,
+            "nofollow": None,
+            },
+        "safe_mode": "escape",
+        },
+    }
