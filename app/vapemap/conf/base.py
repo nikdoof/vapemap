@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.flatpages',
+    'django.contrib.sitemaps',
     'gunicorn',
     'raven.contrib.django.raven_compat',
     'south',

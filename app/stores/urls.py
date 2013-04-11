@@ -1,10 +1,13 @@
 from django.conf.urls import patterns, include, url
-from .views import *
-from .forms import AddressForm, StoreForm
-from .models import Store, Chain
+from stores.views import *
+from stores.forms import AddressForm, StoreForm
+from stores.models import Store, Chain
+from stores.sitemap import sitemaps
 
 urlpatterns = patterns('',
     url(r'^$', MapView.as_view(), name='map'),
+
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}, name='sitemap'),
 
     url(r'^chains/$', ChainListView.as_view(), name='chain-list'),
     url(r'^chains/(?P<slug>.*)/claim/$', ClaimCreateView.as_view(target_model=Chain), name='chain-claim'),
