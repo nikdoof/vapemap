@@ -3,7 +3,7 @@ from moderation.models import FlagType, FlaggedObject
 
 
 class FlaggedObjectModelAdmin(admin.ModelAdmin):
-    list_display = ['generic_obj', 'user', 'status', 'note']
+    list_display = ['generic_obj', 'user', 'status', 'note', 'created', 'changed']
     list_filter = ['status']
 
 

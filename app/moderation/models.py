@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.conf import settings
 from django.db import models
 try:
@@ -35,3 +36,10 @@ class FlaggedObject(models.Model):
     note = models.TextField()
     status = models.PositiveIntegerField(choices=FLAGGING_STATUS, default=1)
     user = models.ForeignKey(USER_MODEL, related_name='+', null=True, blank=True)
+
+    created = models.DateTimeField('Created Date/Time', default=now)
+    changed = models.DateTimeField('Changed Date/Time', default=now)
+
+    def save(self, **kwargs):
+        self.changed = now()
+        return super(FlaggedObject, self).save(**kwargs)
