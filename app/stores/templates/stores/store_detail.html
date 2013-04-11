@@ -45,7 +45,7 @@ $(document).ready(function(){initialize_map_store()});
 {% endblock %}
 
 {% block content %}
-<div itemscope itemtype="http://schema.org/Place">
+<div itemscope itemtype="http://schema.org/LocalBusiness">
     <div class="page-header">
         <h1 itemtype="name">{{ store.name }}</h1>
     </div>
@@ -70,6 +70,9 @@ $(document).ready(function(){initialize_map_store()});
                 {% endfor %}
             </ul>
             {% endif %}
+            <p class="hidden" itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                <span class="latitude">{{ store.address.geo_latitude }}</span>, <span class="longitude">{{ store.address.geo_longitude }}</span>
+            </p>
         </div>
         <div class="span4">
             {% if user.is_authenticated and not store.editor or user.is_superuser %}
@@ -81,9 +84,9 @@ $(document).ready(function(){initialize_map_store()});
             {% endif %}
             {% if store.chain %}<p><b>Chain</b>: <a href="{% url "chain-detail" store.chain.slug %}">{{ store.chain }}</a></p>{% endif %}
             <p><b>Type</b>: {{ store.get_store_type_display }}</p>
-            <div class="store-details">
+            <div class="store-details" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                 <h3>Address</h3>
-                <ul itemscope itemtype="http://schema.org/PostalAddress">
+                <ul>
                     <li itemprop="name">{{ store.name }}</li>
                     <li itemprop="streetAddress">{{ store.address.address1 }}</li>
                     {% if store.address.address2 %}<li>{{ store.address.address2 }}</li>{% endif %}
@@ -95,7 +98,7 @@ $(document).ready(function(){initialize_map_store()});
                 </ul>
 
                 <h3>Contact Details</h3>
-                <ul itemscope itemtype="http://schema.org/ContactPoint">
+                <ul>
                     {% if store.website %}<li>Website: <a target="_new" href="{{ store.website }}">{{ store.website }}</a></li>{% endif %}
                     {% if store.email %}<li>Email: <a itemprop="email" href="mailto:{{ store.email }}">{{ store.email }}</a></li>{% endif %}
                     {% if store.phone %}<li>Phone: <span itemprop="telephone">{{ store.phone }}</span></li>{% endif %}
@@ -111,7 +114,6 @@ $(document).ready(function(){initialize_map_store()});
                 </div>
 
                 <p class="muted">Last Updated: {{ store.changed }}</p>
-                <p class="hidden" itemprop="geocoordinates"><span class="latitude">{{ store.address.geo_latitude }}</span>, <span class="longitude">{{ store.address.geo_longitude }}</span></p>
             </div>
         </div>
         {% flag_form store %}
