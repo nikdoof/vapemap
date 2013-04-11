@@ -1,5 +1,5 @@
 from django.contrib.sites.models import Site
-from .models import ClaimRequest
+from .models import ClaimRequest, Store
 
 def site(request):
     return {
@@ -9,8 +9,10 @@ def site(request):
 
 def pending_admin(request):
     if request.user.is_superuser:
-        pending = ClaimRequest.objects.filter(status=ClaimRequest.CLAIM_STATUS_PENDING).count()
+        inactive_stores = Store.objects.filter(active=False).count()
+        pending_claims = ClaimRequest.objects.filter(status=ClaimRequest.CLAIM_STATUS_PENDING).count()
         return {
-            'admin_pending_requests': pending
+            'admin_pending_claims': pending_claims,
+            'admin_inactive_stores': inactive_stores,
         }
     return {}

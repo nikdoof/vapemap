@@ -98,6 +98,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'stores.context_processors.site',
     'stores.context_processors.pending_admin',
+    'moderation.context_processors.pending_flagged_admin',
 )
 
 ROOT_URLCONF = 'vapemap.urls'

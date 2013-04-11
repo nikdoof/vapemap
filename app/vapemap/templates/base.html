@@ -41,7 +41,9 @@
                             <li><a href="#login-modal" data-toggle="modal">Login</a></li>
                             {% else %}
                             {% if user.is_superuser %}
-                            {% if admin_pending_requests > 0 %}<li><a href="{%  url "admin:stores_claimrequest_changelist" %}?status__exact=0"><span class="badge badge-important">{{ admin_pending_requests }}</span></a></li>{% endif %}
+                            {% if admin_inactive_stores > 0 %}<li><a href="{% url "admin:stores_store_changelist" %}?active__exact=0" title="Inactive Stores"><span class="badge badge-info">{{ admin_inactive_stores }}</span></a></li>{% endif %}
+                            {% if admin_pending_flags > 0 %}<li><a href="{% url "admin:moderation_flaggedobject_changelist" %}?status__exact=1" title="Pending Moderation Flags"><span class="badge badge-warning">{{ admin_pending_flags }}</span></a></li>{% endif %}
+                            {% if admin_pending_claims > 0 %}<li><a href="{% url "admin:stores_claimrequest_changelist" %}?status__exact=0" title="Pending Claims"><span class="badge badge-important">{{ admin_pending_claims }}</span></a></li>{% endif %}
                             <li><a href="{% url "admin:index" %}">Admin</a></li>
                             {% endif %}
                             <li><a href="#">{{ user.username }}</a></li>
