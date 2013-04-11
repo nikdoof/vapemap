@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django import forms
 from django.db import transaction
 from django.db.models import Count
+from django.utils.timezone import now
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
 from .models import Chain, Store, Address, Brand, ClaimRequest, Link, LinkType, County, Country
@@ -16,7 +17,7 @@ class LinkInlineAdmin(GenericStackedInline):
 
 class ChainAdmin(admin.ModelAdmin):
     list_filter = ['active']
-    list_display = ['name']
+    list_display = ['name', 'active', 'changed']
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name']
     inlines = [
@@ -25,7 +26,7 @@ class ChainAdmin(admin.ModelAdmin):
 
 class StoreAdmin(admin.ModelAdmin):
     list_filter = ['chain', 'active']
-    list_display = ['name', 'store_type', 'active']
+    list_display = ['name', 'store_type', 'active', 'changed']
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name']
     inlines = [
@@ -39,7 +40,7 @@ class StoreAdmin(admin.ModelAdmin):
 
     def set_active(self, request, queryset):
         with transaction.commit_on_success():
-            queryset.update(active=True)
+            queryset.update(active=True, changed=now())
         self.message_user(request, "Successfully set %d stores to active." % queryset.count())
     set_active.short_description = 'Set selected stores active.'
 
@@ -53,6 +54,7 @@ class StoreAdmin(admin.ModelAdmin):
                 with transaction.commit_on_success():
                     for store in queryset:
                         store.brands.add(brand)
+                    queryset.update(changed=now())
                 if count > 1:
                     plural = 's'
                 else:
@@ -61,7 +63,7 @@ class StoreAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
             form = self.AddBrandForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render_to_response('admin/add_brand.html', {'stores': queryset, 'brand_form': form }, RequestContext(request))
+        return render_to_response('admin/add_brand.html', {'stores': queryset, 'brand_form': form}, RequestContext(request))
 
     add_brand.short_description = "Add brand to the selected stores"
 
@@ -77,9 +79,7 @@ class StoreAdmin(admin.ModelAdmin):
                 count = queryset.count()
                 chain = form.cleaned_data['chain']
                 with transaction.commit_on_success():
-                    for store in queryset:
-                        store.chain = chain
-                        store.save()
+                    queryset.update(chain=chain, changed=now())
                 if count > 1:
                     plural = 's'
                 else:
@@ -101,12 +101,13 @@ class ClaimAdmin(admin.ModelAdmin):
 
     def approve_request(self, request, queryset):
         qs = queryset.filter(status=ClaimRequest.CLAIM_STATUS_PENDING)
-        for obj in qs:
-            obj.status = ClaimRequest.CLAIM_STATUS_APPROVED
-            target = obj.generic_obj
-            target.editor = obj.user
-            target.save()
-            obj.save()
+        with transaction.commit_on_success():
+            for obj in qs:
+                obj.status = ClaimRequest.CLAIM_STATUS_APPROVED
+                target = obj.generic_obj
+                target.editor = obj.user
+                target.save()
+                obj.save()
         if qs.count() == 1:
             message_bit = "1 request was"
         else:
@@ -139,9 +140,7 @@ class CountyAdmin(admin.ModelAdmin):
             if form.is_valid():
                 country = form.cleaned_data['country']
                 with transaction.commit_on_success():
-                    for county in queryset:
-                        county.country = country
-                        county.save()
+                    queryset.update(country=country)
                 self.message_user(request, "Successfully set %d counties to %s." % (queryset.count(), country))
                 return HttpResponseRedirect(request.get_full_path())
         if not form:

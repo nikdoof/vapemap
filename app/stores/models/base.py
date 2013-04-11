@@ -1,6 +1,7 @@
 import re
 from django.db import models
 from django.core.urlresolvers import reverse_lazy
+from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.contrib.contenttypes.models import ContentType
@@ -21,9 +22,13 @@ class Chain(models.Model):
     long_description = models.TextField('Description', null=True, blank=True)
     links = generic.GenericRelation('stores.Link', content_type_field='object_type')
 
+    created = models.DateTimeField('Created Date/Time', default=now)
+    changed = models.DateTimeField('Changed Date/Time', default=now)
+
     def save(self, **kwargs):
         if self.slug == '':
             self.slug = re.sub(r'\W+', '-', str(self.name).lower())
+        self.changed = now()
         return super(Chain, self).save(**kwargs)
 
     def get_absolute_url(self):
@@ -65,6 +70,9 @@ class Store(models.Model):
     long_description = models.TextField('Description', null=True, blank=True, help_text="Full description of the store, including any marketing material. Markdown supported.")
     brands = models.ManyToManyField('stores.Brand', related_name='stores', null=True, blank=True, help_text="Brands that are sold by this store.")
 
+    created = models.DateTimeField('Created Date/Time', default=now)
+    changed = models.DateTimeField('Changed Date/Time', default=now)
+
     def get_full_address(self):
         if self.address:
             return self.address.full_address
@@ -76,6 +84,7 @@ class Store(models.Model):
     def save(self, **kwargs):
         if not self.slug or self.slug == '':
             self.slug = re.sub(r'\W+', '-', str(self.name).lower())
+        self.changed = now()
         return super(Store, self).save(**kwargs)
 
     def get_absolute_url(self):
