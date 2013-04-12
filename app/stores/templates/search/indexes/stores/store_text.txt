@@ -1,5 +1,3 @@
 {{ object.name }}
-{{ object.address.city }}
-{{ object.address.county }}
-{{ object.address.postcode }}
+{{ object.get_full_address }}
 {{ object.long_description }}
