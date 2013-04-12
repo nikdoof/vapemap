@@ -21,3 +21,4 @@ django-storages
 boto
 raven>=3
 django-waffle>=0.9.1
+django-tastypie>=0.9.14

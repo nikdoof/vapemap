@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'registration',
     'haystack',
+    'tastypie',
     'moderation',
     'stores',
 ]

@@ -87,7 +87,6 @@
 {% endblock %}
 {% switch uservoice_tab %}
 <script type='text/javascript'>
-
     var _ues = {
         host:'vapourhunter.userecho.com',
         forum:'18759',
@@ -103,13 +102,11 @@
         tab_bg_color:'#999999',
         tab_hover_color:'#0080c0'
     };
-
     (function() {
         var _ue = document.createElement('script'); _ue.type = 'text/javascript'; _ue.async = true;
         _ue.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.userecho.com/js/widget-1.4.gz.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(_ue, s);
     })();
-
 </script>
 {% endswitch %}
 </html>
