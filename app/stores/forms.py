@@ -34,7 +34,7 @@ class StoreForm(BootstrapModelForm):
 
     class Meta:
         model = Store
-        exclude = ('slug', 'address', 'chain', 'editor')
+        exclude = ('slug', 'address', 'chain', 'editor', 'created', 'changed')
         classes = {
             'name': 'input-xxlarge',
             'long_description': 'input-xxlarge',
