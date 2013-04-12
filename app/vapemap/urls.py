@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from tastypie.api import Api
-from stores.api import CountryResource, CountyResource
+from stores.api import CountryResource
 admin.autodiscover()
 
 
