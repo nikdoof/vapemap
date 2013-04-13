@@ -73,10 +73,6 @@ class StoresUtilsTestCase(TestCase):
         self.assertNotEqual(lng, '')
         self.assertIsNotNone(cache.get('geo_%s' % slug, None))
 
-    def test_haversine(self):
-        from stores.utils import haversine
-        self.assertEqual(haversine(1, 1, 2, 2), 157.1267188489107)
-
 
 class StoresChainModelTestCase(TestCase):
     """
