@@ -19,7 +19,7 @@ class StoreListView(HaystackSearchListMixin, ListView):
         if search:
             ctx.update({
                 'search_query': search,
-                })
+            })
         return ctx
 
     def get_queryset(self):
@@ -57,7 +57,7 @@ class StockistStoreListView(StoreListView):
         ctx = super(StockistStoreListView, self).get_context_data(**kwargs)
         ctx.update({
             'brand': self.brand,
-            })
+        })
         return ctx
 
     def get_queryset(self):
@@ -70,7 +70,8 @@ class StoreDetailView(EditorCheckMixin, DetailView):
 
     def get_queryset(self):
         qs = super(StoreDetailView, self).get_queryset()
-        return qs.filter(active=True).select_related('address', 'address__county', 'address__country', 'chain').prefetch_related('brands')
+        return qs.filter(active=True).select_related('address', 'address__county', 'address__country', 'chain')\
+            .prefetch_related('brands')
 
 
 class StoreUpdateView(UpdateView):
@@ -98,7 +99,8 @@ class StoreCreateView(SessionWizardView):
         store_obj.active = False
         store_obj.save()
 
-        messages.success(self.request, "%s has been sumbitted for moderation and should be visible within the next 24 hours." % store_obj)
+        messages.success(self.request, "%s has been sumbitted for moderation and should be visible within the "
+                                       "next 24 hours." % store_obj)
 
         return HttpResponseRedirect(reverse('map'))
 

@@ -1,5 +1,5 @@
 from django.forms.models import model_to_dict
-from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.resources import ModelResource
 from stores.models import County, Country
 
 

@@ -12,13 +12,13 @@ class Command(BaseCommand):
     help = 'Import a list of stores from CSV'
 
     def handle(self, *args, **options):
-        file = args[0]
-        if file.startswith('http'):
-            self.stdout.write("Downloading %s\n" % file)
-            f = StringIO(requests.get(file).text)
+        fn = args[0]
+        if fn.startswith('http'):
+            self.stdout.write("Downloading %s\n" % fn)
+            f = StringIO(requests.get(fn).text)
         else:
-            self.stdout.write("Opening file %s\n" % file)
-            f = open(file, 'r')
+            self.stdout.write("Opening file %s\n" % fn)
+            f = open(fn, 'r')
 
         self.stdout.write('Formatting data...')
         # Generate the dataset

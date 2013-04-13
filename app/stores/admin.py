@@ -24,6 +24,7 @@ class ChainAdmin(admin.ModelAdmin):
         LinkInlineAdmin,
     ]
 
+
 class StoreAdmin(admin.ModelAdmin):
     list_filter = ['chain', 'active']
     list_display = ['name', 'store_type', 'active', 'changed']
@@ -63,7 +64,8 @@ class StoreAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
             form = self.AddBrandForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render_to_response('admin/add_brand.html', {'stores': queryset, 'brand_form': form}, RequestContext(request))
+        return render_to_response('admin/add_brand.html', {'stores': queryset, 'brand_form': form},
+                                  RequestContext(request))
 
     add_brand.short_description = "Add brand to the selected stores"
 
@@ -88,7 +90,8 @@ class StoreAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
             form = self.SetChainForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render_to_response('admin/set_chain.html', {'stores': queryset, 'chain_form': form }, RequestContext(request))
+        return render_to_response('admin/set_chain.html', {'stores': queryset, 'chain_form': form},
+                                  RequestContext(request))
 
     set_chain.short_description = "Set the selected store's chain"
 
@@ -97,7 +100,6 @@ class ClaimAdmin(admin.ModelAdmin):
     list_filter = ['status']
     list_display = ['generic_obj', 'user', 'status', 'note']
     actions = ['approve_request']
-
 
     def approve_request(self, request, queryset):
         qs = queryset.filter(status=ClaimRequest.CLAIM_STATUS_PENDING)
@@ -145,7 +147,8 @@ class CountyAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
             form = self.SetCountryForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render_to_response('admin/set_country.html', {'stores': queryset, 'country_form': form}, RequestContext(request))
+        return render_to_response('admin/set_country.html', {'stores': queryset, 'country_form': form},
+                                  RequestContext(request))
 
     set_country.short_description = "Set the selected county's country"
 

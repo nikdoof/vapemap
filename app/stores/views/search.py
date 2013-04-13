@@ -34,7 +34,8 @@ class DistanceSearchView(ListView):
             return SearchQuerySet.none
         distance = self.get_distance()
         print location, distance
-        return SearchQuerySet().dwithin('location', location, distance).distance('location', location).order_by('-distance')
+        return SearchQuerySet().dwithin('location', location, distance)\
+            .distance('location', location).order_by('-distance')
 
     def get_context_data(self, **kwargs):
         ctx = super(DistanceSearchView, self).get_context_data(**kwargs)

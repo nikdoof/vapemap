@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from stores.views import *
 from stores.forms import AddressForm, StoreForm
 from stores.models import Store, Chain

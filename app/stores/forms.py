@@ -40,7 +40,7 @@ class StoreForm(BootstrapModelForm):
             'long_description': 'input-xxlarge',
         }
         widgets = {
-            'long_description': EpicEditorWidget(attrs={'rows': 40}, themes={'editor':'epic-light.css'})
+            'long_description': EpicEditorWidget(attrs={'rows': 40}, themes={'editor': 'epic-light.css'})
         }
 
 
