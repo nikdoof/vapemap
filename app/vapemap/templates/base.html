@@ -31,24 +31,36 @@
                     <div class="container">
                         <ul class="nav">
                             <li><a href="{% url "map" %}">Map</a></li>
-                            <li><a href="{% url "store-retail-list" %}">Retail Stores</a></li>
-                            <li><a href="{% url "store-online-list" %}">Online Stores</a></li>
-                            <li><a href="{% url "chain-list" %}">Chains</a></li>
-                            <li><a href="{% url "brand-list" %}">Brand Stockists</a></li>
+                            <li class="hidden-phone"><a href="{% url "store-retail-list" %}">Retail Stores</a></li>
+                            <li class="hidden-phone"><a href="{% url "store-online-list" %}">Online Stores</a></li>
                         </ul>
-                        <ul class="nav pull-right">
-                            {% if not user.is_authenticated %}
-                            <li><a href="#login-modal" data-toggle="modal">Login</a></li>
-                            {% else %}
-                            {% if user.is_superuser %}
-                            {% if admin_inactive_stores > 0 %}<li><a href="{% url "admin:stores_store_changelist" %}?active__exact=0" title="Inactive Stores"><span class="badge badge-info">{{ admin_inactive_stores }}</span></a></li>{% endif %}
-                            {% if admin_pending_flags > 0 %}<li><a href="{% url "admin:moderation_flaggedobject_changelist" %}?status__exact=1" title="Pending Moderation Flags"><span class="badge badge-warning">{{ admin_pending_flags }}</span></a></li>{% endif %}
-                            {% if admin_pending_claims > 0 %}<li><a href="{% url "admin:stores_claimrequest_changelist" %}?status__exact=0" title="Pending Claims"><span class="badge badge-important">{{ admin_pending_claims }}</span></a></li>{% endif %}
-                            <li><a href="{% url "admin:index" %}">Admin</a></li>
-                            {% endif %}
-                            <li><a href="#">{{ user.username }}</a></li>
-                            {% endif %}
-                        </ul>
+
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="visible-phone"><a href="{% url "store-retail-list" %}">Retail Stores</a></li>
+                                <li class="visible-phone"><a href="{% url "store-online-list" %}">Online Stores</a></li>
+                                <li><a href="{% url "chain-list" %}">Chains</a></li>
+                                <li><a href="{% url "brand-list" %}">Brand Stockists</a></li>
+                            </ul>
+                            <ul class="nav pull-right">
+                                {% if not user.is_authenticated %}
+                                <li><a href="#login-modal" data-toggle="modal">Login</a></li>
+                                {% else %}
+                                {% if user.is_superuser %}
+                                {% if admin_inactive_stores > 0 %}<li><a href="{% url "admin:stores_store_changelist" %}?active__exact=0" title="Inactive Stores"><span class="badge badge-info">{{ admin_inactive_stores }}</span></a></li>{% endif %}
+                                {% if admin_pending_flags > 0 %}<li><a href="{% url "admin:moderation_flaggedobject_changelist" %}?status__exact=1" title="Pending Moderation Flags"><span class="badge badge-warning">{{ admin_pending_flags }}</span></a></li>{% endif %}
+                                {% if admin_pending_claims > 0 %}<li><a href="{% url "admin:stores_claimrequest_changelist" %}?status__exact=0" title="Pending Claims"><span class="badge badge-important">{{ admin_pending_claims }}</span></a></li>{% endif %}
+                                <li><a href="{% url "admin:index" %}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="#">{{ user.username }}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
