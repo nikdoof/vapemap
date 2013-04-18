@@ -20,6 +20,7 @@
 {% endblock %}
 
 {% block scripts %}
+{%  if store.store_type != 2  %}
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 function initialize_map_store() {
@@ -42,6 +43,7 @@ function initialize_map_store() {
 }
 $(document).ready(function(){initialize_map_store()});
 </script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -88,12 +90,16 @@ $(document).ready(function(){initialize_map_store()});
                 <h3>Address</h3>
                 <ul>
                     <li itemprop="name">{{ store.name }}</li>
+                    {%  if store.store_type != 2  %}
                     <li itemprop="streetAddress">{{ store.address.address1 }}</li>
                     {% if store.address.address2 %}<li>{{ store.address.address2 }}</li>{% endif %}
                     {% if store.address.address3 %}<li>{{ store.address.address3 }}</li>{% endif %}
+                    {% endif %}
                     <li itemprop="addressLocality">{{ store.address.city }}</li>
                     {% if store.address.county %}<li itemprop="addressRegion">{{ store.address.county }}</li>{% endif %}
+                    {%  if store.store_type != 2  %}
                     <li itemprop="postalCode">{{ store.address.postcode }}</li>
+                    {% endif %}
                     <li itemprop="addressCountry">{{ store.address.country }}</li>
                 </ul>
 
@@ -107,11 +113,13 @@ $(document).ready(function(){initialize_map_store()});
                     {% endfor %}
                 </ul>
 
+                {%  if store.store_type != 2  %}
                 <div id="map-canvas-store" style="width: 300px; height: 300px;" class="map">
                     <noscript>
                         <img alt="Map of {{ store.address.full_address }}" src="https://maps.google.com/maps/api/staticmap?center={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&zoom=16&markers={{ store.address.geo_latitude }},{{ store.address.geo_longitude }}&size=300x300&sensor=false">
                     </noscript>
                 </div>
+                {% endif %}
 
                 <p class="muted">Last Updated: {{ store.changed }}</p>
             </div>
