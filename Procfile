@@ -1,1 +1,1 @@
-web: cd app; python manage.py run_gunicorn -k gevent
+web: cd app; python manage.py run_gunicorn -b 0.0.0.0:\$PORT -w 4 -k gevent –max-requests=500 –preload
